@@ -1,6 +1,8 @@
 module automation
 
-go 1.20
+go 1.21
+
+toolchain go1.24.0
 
 require github.com/pulumi/pulumi/sdk/v3 v3.117.0
 
@@ -55,6 +57,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.6.2 // indirect
+	github.com/pulumi/pulumi-gcp/sdk/v6 v6.67.1 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
