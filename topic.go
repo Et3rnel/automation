@@ -8,8 +8,8 @@ import (
 func provisionTopic(ctx *pulumi.Context) (*pubsub.Topic, error) {
 	// Create a new Pub/Sub topic with the Pulumi resource name "gmailTopic" used internally to identify the resource
 	topic, err := pubsub.NewTopic(ctx, "gmailTopic", &pubsub.TopicArgs{
-		// Set the actual name of the topic to "gmail-notifications"
-		Name: pulumi.String("gmail-notifications"),
+		// Set the actual name of the topic using the constant
+		Name: pulumi.String(TopicName),
 	})
 
 	if err != nil {
