@@ -1,0 +1,5 @@
+# Environment files
+.env
+
+# But keep the example template
+!.env.example

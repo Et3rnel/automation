@@ -8,17 +8,34 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
 
-var oauth2Config = &oauth2.Config{
-	ClientID:     "todo",
-	ClientSecret: "todo",
-	RedirectURL:  "http://localhost:8080/oauth2callback",
-	Scopes:       []string{"https://www.googleapis.com/auth/gmail.send"},
-	Endpoint:     google.Endpoint,
+var oauth2Config *oauth2.Config
+
+func initOAuth2Config() error {
+	// Load .env for local development
+	if err := godotenv.Load(".env"); err != nil {
+		log.Println("Warning: .env file not found")
+	}
+
+	oauth2Config = &oauth2.Config{
+		ClientID:     os.Getenv("GMAIL_CLIENT_ID"),
+		ClientSecret: os.Getenv("GMAIL_CLIENT_SECRET"),
+		RedirectURL:  "http://localhost:8080/oauth2callback",
+		Scopes:       []string{"https://www.googleapis.com/auth/gmail.send"},
+		Endpoint:     google.Endpoint,
+	}
+
+	if oauth2Config.ClientID == "" || oauth2Config.ClientSecret == "" {
+		return fmt.Errorf("GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET must be set in .env file")
+	}
+
+	return nil
 }
 
 func handleMain(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +60,10 @@ func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 }
 
 func Run() {
+	if err := initOAuth2Config(); err != nil {
+		log.Fatal(err)
+	}
+
 	http.HandleFunc("/", handleMain)
 	http.HandleFunc("/oauth2callback", handleOAuth2Callback)
 
