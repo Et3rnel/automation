@@ -22,3 +22,11 @@ Follow these steps to set up the project:
      ```bash
      gcloud auth application-default set-quota-project <project-id>
      ```
+
+3. Store API Tokens Securely  
+   You can securely store these tokens using Pulumi by adding them as "secret" configuration variables. For example, after obtaining your tokens, store them locally by running:
+   ```bash
+   pulumi config set --secret gmail:accessToken <your_access_token>
+   pulumi config set --secret gmail:refreshToken <your_refresh_token>
+   ```
+   These values are then stored in Pulumi's state in an encrypted form, and we retrieve them by using os.Getenv via Pulumi or through the Pulumi configuration package.
